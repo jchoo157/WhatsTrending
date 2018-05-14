@@ -29,41 +29,6 @@ app.use(webpackMiddleware(compiler, {
 
 app.use(webpackHotMiddleware(compiler));
 
-// app.use(handleRender)
-// function handleRender(req, res) {
-//   const params = qs.parse(req.query)
-//   const tweetsByQuery = parseInt(params.counter, 10) || 0
-//   let preloadedState = { tweetsByQuery: {} }
-//   const store = createStore(rootReducer, preloadedState, applyMiddleware(thunk))
-//   const html = renderToString(
-//     <Provider store={store}>
-//       <App/>
-//     </Provider>
-//   )
-//   const finalState = store.getState()
-//   res.send(renderFullPage(html, finalState))
-// }
-
-// function renderFullPage(html, preloadedState) {
-//   return `
-//     <!doctype html>
-//     <html>
-//       <head>
-//         <title>Redux Universal Example</title>
-//       </head>
-//       <body>
-//         <div id="app">${html}</div>
-//         <script>
-//           // WARNING: See the following for security issues around embedding JSON in HTML:
-//           // http://redux.js.org/recipes/ServerRendering.html#security-considerations
-//           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
-//         </script>
-//         <script type="text/javascript" src="/bundle.js"></script>
-//       </body>
-//     </html>
-//     `
-// }
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../index.html'));
 });
