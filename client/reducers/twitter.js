@@ -1,10 +1,5 @@
 import { CLICK_TITLE, REQUEST_TWEETS, RECEIVE_TWEETS } from '../actions/twitter';
 
-const defaultLocations = {
-  state: "CA",
-  country: "US"
-}
-
 export function tweetsByQuery(state = {isLoading: false, tweetsByQuery: []}, action) {
   switch (action.type) {
     case CLICK_TITLE:

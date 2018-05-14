@@ -11,11 +11,6 @@ class Twitter extends Component {
     this.listOutTweets = this.listOutTweets.bind(this);
   }
 
-  // componentWillMount() {
-  //   const {clickedTitle, fetchTweetsByQueryIfNeeded} = this.props;
-  //   fetchTweetsByQueryIfNeeded()
-  // }
-
   activeClickTitle() {
     const {clickedTitle, fetchTweetsByQueryIfNeeded} = this.props;
     return fetchTweetsByQueryIfNeeded()
