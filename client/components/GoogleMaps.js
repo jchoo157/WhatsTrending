@@ -47,12 +47,14 @@ class GoogleMaps extends Component {
   createAllTweetMarkers() {
     const {tweetsByQuery} = this.props;
 
+    console.log('tweetsByQuery', tweetsByQuery)
+
     return tweetsByQuery.statuses.map((status) => {
       if (!status.coordinates) {
         return null
       }
-      let lat = status.coordinates.coordinates[0]
-      let lng = status.coordinates.coordinates[1]
+      let lat = status.coordinates.coordinates[1]
+      let lng = status.coordinates.coordinates[0]
       console.log(lat, lng)
       console.log(status)
       return (
@@ -67,12 +69,12 @@ class GoogleMaps extends Component {
 
   static defaultProps = {
     center: { lat: 40.7446790, lng: -73.9485420 },
-    zoom: 11
+    zoom: 14
   }
 
   render() {
     const { tweetsByQuery, googlemaps: {coordinates} } = this.props;
-
+    console.log('render', tweetsByQuery)
     return (
       <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMapReact

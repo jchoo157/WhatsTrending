@@ -14,10 +14,10 @@ export function requestTweets() {
   }
 }
 
-export function receiveTweetsByQuery(payload) {
+export function receiveTweetsByQuery(json) {
   return {
     type: RECEIVE_TWEETS,
-    payload: payload
+    statuses: json.statuses
   }
 }
 
@@ -41,8 +41,6 @@ export function fetchTweetsByQuery() {
     const {googlemaps: {coordinates}} = getState();
 
     dispatch(requestTweets())
-
-    console.log('coordinatesssss', coordinates.coordinates)
 
     let esc = encodeURIComponent
     let query = Object.keys(coordinates)
