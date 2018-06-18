@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { fetchTweetsByQuery } from '../actions/twitter';
 import { setCoordinates } from '../actions/googlemaps';
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = ({ text }) => <div className="marker">{ text }</div>;
+const AnyReactComponent = ({ status }) => 
+  <div className="marker-container">
+    <div className="sprite sprite-twitter-marker" onMouseOver={(e) => e.target.parentNode.classList.add('show-first')} onMouseLeave={(e) => e.target.parentNode.classList.remove('show-first')}>
+    </div>
+    <div className="tweet">
+      { status.user.screen_name }
+    </div>
+  </div>
 
 class GoogleMaps extends Component {
   constructor(props) {
@@ -61,7 +68,7 @@ class GoogleMaps extends Component {
         <AnyReactComponent
           lat={lat}
           lng={lng}
-          text={'DOT'}
+          status={status}
         />
       )
     })
@@ -102,18 +109,18 @@ function mapDispatchToProps(dispatch) {
     fetchTweetsByQuery: () => {
       dispatch(fetchTweetsByQuery())
     },
-    setCoordinates: () => {
-      dispatch(setCoordinates())
+    setCoordinates: (coordinates) => {
+      dispatch(setCoordinates(coordinates))
     }
   })
 }
 
-function mapDispatchToProps(dispatch) {
-  const objects = Object.assign({}, {
-    fetchTweetsByQuery,
-    setCoordinates,
-  });
-  return bindActionCreators(objects, dispatch);
-}
+// function mapDispatchToProps(dispatch) {
+//   const objects = Object.assign({}, {
+//     fetchTweetsByQuery,
+//     setCoordinates,
+//   });
+//   return bindActionCreators(objects, dispatch);
+// }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoogleMaps)

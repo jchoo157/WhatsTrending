@@ -2,3 +2,54 @@ html, body {
   font-family: arial;
   margin: 0;
 }
+
+.marker-container {
+  width: auto;
+  display: inline-block;
+  position: relative;
+
+  .sprite {
+    background-image: url(./spritesheet.png);
+    background-repeat: no-repeat;
+    display: block;
+  }
+
+  .sprite-twitter-marker {
+    width: 30px;
+    height: 44px;
+    background-position: -5px -5px;
+    cursor: pointer;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+
+    &:hover {
+      width: 30px;
+      height: 44px;
+      background-position: -45px -5px;
+    }
+  }
+
+  .tweet {
+    background: white;
+    -webkit-box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+    font-weight: bolder;
+    padding: 5px;
+    border-radius: 10px;
+    border: 2px solid #599CDD;
+    position: absolute;
+    z-index: 1;
+  }
+
+  &.show-first {
+    .sprite-twitter-marker {
+      z-index: 2;
+    }
+
+    .tweet {
+      z-index: 2;
+    }
+  }
+}
