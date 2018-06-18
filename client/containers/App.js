@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Twitter from './Twitter';
+import GoogleMaps from '../components/GoogleMaps';
 
 export default class App extends Component {
   constructor() {
@@ -9,7 +10,8 @@ export default class App extends Component {
   render () {
     return (
       <div>
-        <Twitter />
+        {/*<Twitter />*/}
+        <GoogleMaps />
       </div>
     )
   }

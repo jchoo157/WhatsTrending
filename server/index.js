@@ -34,7 +34,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/data', (req, res) => {
-  twitAuthentication('35.7596,-79.0193,1mi', 100).then(result => {res.json(result)})
+  console.log('helllooooo', req.query)
+  twitAuthentication(`'${req.lat},${req.lng}`, 100).then(result => {res.json(result)})
 });
 
 app.listen(8080, () => console.log('running on 8080'))

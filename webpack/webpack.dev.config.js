@@ -9,25 +9,25 @@ module.exports = {
         path.join(parentDir, '/client/index.js')
     ],
     module: {
-        loaders: [
-          {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            loader: require.resolve('babel-loader'),
-            options: {
-                cacheDirectory: true,
-                plugins: ['react-hot-loader/babel'],
-            },
+      loaders: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          loader: require.resolve('babel-loader'),
+          options: {
+              cacheDirectory: true,
+              plugins: ['react-hot-loader/babel'],
           },
-          {
-            test: /\.less$/,
-            loaders: ["style-loader", "css-loader", "less-loader"]
-          },
-          { 
-            test: /\.json$/, 
-            loader: 'json-loader' 
-          }
-        ]
+        },
+        {
+          test: /\.css$/,
+          loaders: ["style-loader", "css-loader", "less-loader"]
+        },
+        { 
+          test: /\.json$/, 
+          loader: 'json-loader' 
+        }
+      ]
     },
     output: {
         path: parentDir + '/dist',
