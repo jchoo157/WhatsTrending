@@ -5,10 +5,11 @@ import { fetchTweetsByQuery } from '../actions/twitter';
 import { setCoordinates, fetchAddressGeocode } from '../actions/googlemaps';
 import GoogleMapReact from 'google-map-react';
 import AddressBar from './AddressBar';
+import TwitterFeed from './TwitterFeed';
 
 const Marker = ({ status }) => 
-  <div className="marker-container">
-    <div className="sprite sprite-twitter-marker" onMouseOver={(e) => e.target.parentNode.classList.add('show-first')} onMouseLeave={(e) => e.target.parentNode.classList.remove('show-first')}>
+  <div className="marker-container" onMouseLeave={(e) => e.target.parentNode.classList.remove('show-first')}>
+    <div className="sprite sprite-twitter-marker" onMouseOver={(e) => e.target.parentNode.classList.add('show-first')}>
     </div>
     <div className="tweet">
       { status.user.screen_name }
@@ -88,20 +89,26 @@ class GoogleMaps extends Component {
           center={coordinates}
           defaultZoom={14}
         >
-          <AddressBar tweetsByQuery={tweetsByQuery} fetchAddressGeocode={fetchAddressGeocode} fetchTweetsByQuery={fetchTweetsByQuery}/>
+          <AddressBar fetchAddressGeocode={fetchAddressGeocode} fetchTweetsByQuery={fetchTweetsByQuery}/>
           {tweetsByQuery.statuses ? this.createAllTweetMarkers() : null}
         </GoogleMapReact>
+        <TwitterFeed tweetsByQuery={tweetsByQuery} />
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  const { tweetsByQuery, googlemaps } = state;
-  return ({
-    tweetsByQuery, googlemaps
-  })
-}
+// function mapStateToProps(state) {
+//   const { tweetsByQuery, googlemaps } = state;
+//   return ({
+//     tweetsByQuery, googlemaps
+//   })
+// }
+
+const mapStateToProps = (state) => ({
+  tweetsByQuery: state.tweetsByQuery,
+  googlemaps: state.googlemaps
+})
 
 function mapDispatchToProps(dispatch) {
   return ({
