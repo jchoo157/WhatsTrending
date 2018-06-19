@@ -1,5 +1,6 @@
 const defaultState = {
-  coordinates: {lat: 0, lng: 0}
+  coordinates: {lat: 0, lng: 0},
+  isLoading: false
 }
 
 function googlemaps (state=defaultState, action) {
@@ -8,9 +9,9 @@ function googlemaps (state=defaultState, action) {
       return state.coordinates
     case 'SET_COORDINATES':
       'set coordinates'
-      let copyState = Object.assign({}, state, {coordinates: action.coordinates})
-      console.log('copy', copyState)
-      return copyState
+      return Object.assign({}, state, {isLoading: false, coordinates: action.coordinates})
+    case 'REQUEST_ADDRESS_GEOCODE':
+      return Object.assign({}, state, {isLoading: true})
     default:
       return state
   }

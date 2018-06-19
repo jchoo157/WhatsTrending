@@ -41,6 +41,10 @@ html, body {
     border: 2px solid #599CDD;
     position: absolute;
     z-index: 1;
+
+    .tweet-content {
+      display: none; 
+    }
   }
 
   &.show-first {
@@ -50,6 +54,10 @@ html, body {
 
     .tweet {
       z-index: 2;
+
+      .tweet-content {
+        display: block;
+      }
     }
   }
 }

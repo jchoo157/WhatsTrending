@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 import { fetchTweetsByQuery } from '../actions/twitter';
-import { setCoordinates } from '../actions/googlemaps';
+import { setCoordinates, fetchAddressGeocode } from '../actions/googlemaps';
 import GoogleMapReact from 'google-map-react';
+import AddressBar from './AddressBar';
 
-const AnyReactComponent = ({ status }) => 
+const Marker = ({ status }) => 
   <div className="marker-container">
     <div className="sprite sprite-twitter-marker" onMouseOver={(e) => e.target.parentNode.classList.add('show-first')} onMouseLeave={(e) => e.target.parentNode.classList.remove('show-first')}>
     </div>
     <div className="tweet">
       { status.user.screen_name }
+      <div className="tweet-content">
+        { status.text }
+      </div>
     </div>
   </div>
 
@@ -25,7 +29,7 @@ class GoogleMaps extends Component {
 
   componentDidMount() {
     const {fetchTweetsByQuery, setCoordinates} = this.props;
-
+    console.log('componentDidMount')
     this.getPosition()
       .then((position) => {
         let lat = position.coords.latitude
@@ -33,11 +37,9 @@ class GoogleMaps extends Component {
         return {lat: lat, lng: lng}
       })
       .then((result) => {
-        console.log('first run this')
         setCoordinates(result)
       })
       .then(() => {
-        console.log('just ran this')
         fetchTweetsByQuery()
       })
       .catch((err) => {
@@ -54,18 +56,14 @@ class GoogleMaps extends Component {
   createAllTweetMarkers() {
     const {tweetsByQuery} = this.props;
 
-    console.log('tweetsByQuery', tweetsByQuery)
-
     return tweetsByQuery.statuses.map((status) => {
       if (!status.coordinates) {
         return null
       }
       let lat = status.coordinates.coordinates[1]
       let lng = status.coordinates.coordinates[0]
-      console.log(lat, lng)
-      console.log(status)
       return (
-        <AnyReactComponent
+        <Marker
           lat={lat}
           lng={lng}
           status={status}
@@ -80,16 +78,17 @@ class GoogleMaps extends Component {
   }
 
   render() {
-    const { tweetsByQuery, googlemaps: {coordinates} } = this.props;
-    console.log('render', tweetsByQuery)
+    const { tweetsByQuery, googlemaps: {coordinates}, fetchAddressGeocode, fetchTweetsByQuery } = this.props;
+    console.log('rendering', tweetsByQuery)
     return (
       <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMapReact
-          bootstrapURLKeys={{ key: 'AIzaSyDntSdliajvqjiH9IsOtpnlEjjEVs6PT0U' }}
+          bootstrapURLKeys={{ key: process.env.GOOGLE_MAPS_API }}
           defaultCenter={this.props.center}
           center={coordinates}
-          defaultZoom={this.props.zoom}
+          defaultZoom={14}
         >
+          <AddressBar tweetsByQuery={tweetsByQuery} fetchAddressGeocode={fetchAddressGeocode} fetchTweetsByQuery={fetchTweetsByQuery}/>
           {tweetsByQuery.statuses ? this.createAllTweetMarkers() : null}
         </GoogleMapReact>
       </div>
@@ -111,6 +110,9 @@ function mapDispatchToProps(dispatch) {
     },
     setCoordinates: (coordinates) => {
       dispatch(setCoordinates(coordinates))
+    },
+    fetchAddressGeocode: (address) => {
+      dispatch(fetchAddressGeocode(address))
     }
   })
 }

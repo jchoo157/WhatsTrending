@@ -6,8 +6,6 @@ import { getCoordinates } from './googlemaps';
 
 import fetch from 'cross-fetch'
 
-require('dotenv/config');
-
 export function requestTweets() {
   return {
     type: REQUEST_TWEETS
@@ -48,7 +46,6 @@ export function fetchTweetsByQuery() {
              .join('&')
 
     let url = '/data?' + query
-    console.log('url', url)
     return fetch(url)
       .then(
         response => response.json(),
