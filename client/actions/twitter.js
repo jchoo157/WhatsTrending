@@ -2,9 +2,9 @@ export const CLICK_TITLE = 'CLICK_TITLE';
 export const REQUEST_TWEETS = 'REQUEST_TWEETS';
 export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'; 
 
-import fetch from 'cross-fetch'
+import { getCoordinates } from './googlemaps';
 
-require('dotenv/config');
+import fetch from 'cross-fetch'
 
 export function requestTweets() {
   return {
@@ -12,10 +12,10 @@ export function requestTweets() {
   }
 }
 
-export function receiveTweetsByQuery(payload) {
+export function receiveTweetsByQuery(json) {
   return {
     type: RECEIVE_TWEETS,
-    payload: payload
+    statuses: json.statuses
   }
 }
 
@@ -34,11 +34,19 @@ export function clickedTitle() {
   }
 }
 
-function fetchTweetsByQuery() {
-  return dispatch => {
+export function fetchTweetsByQuery() {
+  return (dispatch, getState) => {
+    const {googlemaps: {coordinates}} = getState();
+
     dispatch(requestTweets())
 
-    return fetch('/data')
+    let esc = encodeURIComponent
+    let query = Object.keys(coordinates)
+             .map(k => esc(k) + '=' + esc(coordinates[k]))
+             .join('&')
+
+    let url = '/data?' + query
+    return fetch(url)
       .then(
         response => response.json(),
         error => console.log('An error occured.', error)
@@ -70,6 +78,3 @@ export function twitAuthentication(queries, count) {
   })
 }
 
-export function fetchTweetsByQueryIfNeeded() {
-  return fetchTweetsByQuery();
-}

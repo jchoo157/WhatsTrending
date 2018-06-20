@@ -1,28 +1,135 @@
-/*import React, { Component } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+// import { bindActionCreators } from 'redux';
+import { fetchTweetsByQuery } from '../actions/twitter';
+import { setCoordinates, fetchAddressGeocode } from '../actions/googlemaps';
 import GoogleMapReact from 'google-map-react';
+import AddressBar from './AddressBar';
+import TwitterFeed from './TwitterFeed';
 
+const Marker = ({ status }) => 
+  <div className="marker-container" onMouseLeave={(e) => e.target.parentNode.classList.remove('show-first')}>
+    <div className="sprite sprite-twitter-marker" onMouseOver={(e) => e.target.parentNode.classList.add('show-first')}>
+    </div>
+    <div className="tweet">
+      { status.user.screen_name }
+      <div className="tweet-content">
+        { status.text }
+      </div>
+    </div>
+  </div>
 
-const AnyReactComponent = ({ text }) => <div>{ text }</div>;
-export default class Maps extends Component {
+class GoogleMaps extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      coordinates: { lat: 0, lng: 0 }
+    }
+  }
+
+  componentDidMount() {
+    const {fetchTweetsByQuery, setCoordinates} = this.props;
+    console.log('componentDidMount')
+    this.getPosition()
+      .then((position) => {
+        let lat = position.coords.latitude
+        let lng = position.coords.longitude
+        return {lat: lat, lng: lng}
+      })
+      .then((result) => {
+        setCoordinates(result)
+      })
+      .then(() => {
+        fetchTweetsByQuery()
+      })
+      .catch((err) => {
+        console.error(err.message);
+      });
+  }
+
+  getPosition(options) {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  }
+
+  createAllTweetMarkers() {
+    const {tweetsByQuery} = this.props;
+
+    return tweetsByQuery.statuses.map((status) => {
+      if (!status.coordinates) {
+        return null
+      }
+      let lat = status.coordinates.coordinates[1]
+      let lng = status.coordinates.coordinates[0]
+      return (
+        <Marker
+          lat={lat}
+          lng={lng}
+          status={status}
+        />
+      )
+    })
+  }
+
   static defaultProps = {
     center: { lat: 40.7446790, lng: -73.9485420 },
-    zoom: 11
+    zoom: 14
   }
-render() {
+
+  render() {
+    const { tweetsByQuery, googlemaps: {coordinates}, fetchAddressGeocode, fetchTweetsByQuery } = this.props;
+    console.log('rendering', tweetsByQuery)
     return (
-      <div className='google-map'>
+      <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMapReact
-          defaultCenter={ this.props.center }
-          defaultZoom={ this.props.zoom }>
-          <AnyReactComponent
-            lat={ 40.7473310 }
-            lng={ -73.8517440 }
-            text={ "Where's Waldo?" }
-          />
+          bootstrapURLKeys={{ key: process.env.GOOGLE_MAPS_API }}
+          defaultCenter={this.props.center}
+          center={coordinates}
+          defaultZoom={14}
+        >
+          <AddressBar fetchAddressGeocode={fetchAddressGeocode} fetchTweetsByQuery={fetchTweetsByQuery}/>
+          {tweetsByQuery.statuses ? this.createAllTweetMarkers() : null}
         </GoogleMapReact>
+        <TwitterFeed tweetsByQuery={tweetsByQuery} />
       </div>
     )
   }
 }
 
-*/
+// function mapStateToProps(state) {
+//   const { tweetsByQuery, googlemaps } = state;
+//   return ({
+//     tweetsByQuery, googlemaps
+//   })
+// }
+
+const mapStateToProps = (state) => ({
+  tweetsByQuery: state.tweetsByQuery,
+  googlemaps: state.googlemaps
+})
+
+function mapDispatchToProps(dispatch) {
+  return ({
+    fetchTweetsByQuery: () => {
+      dispatch(fetchTweetsByQuery())
+    },
+    setCoordinates: (coordinates) => {
+      dispatch(setCoordinates(coordinates))
+    },
+    fetchAddressGeocode: (address) => {
+      dispatch(fetchAddressGeocode(address))
+    }
+  })
+}
+
+// function mapDispatchToProps(dispatch) {
+//   const objects = Object.assign({}, {
+//     fetchTweetsByQuery,
+//     setCoordinates,
+//   });
+//   return bindActionCreators(objects, dispatch);
+// }
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoogleMaps)

@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 
 var parentDir = path.join(__dirname, '../');
+require('dotenv').config()
 
 module.exports = {
     entry: [
@@ -9,25 +10,26 @@ module.exports = {
         path.join(parentDir, '/client/index.js')
     ],
     module: {
-        loaders: [
-          {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            loader: require.resolve('babel-loader'),
-            options: {
-                cacheDirectory: true,
-                plugins: ['react-hot-loader/babel'],
-            },
+      loaders: [
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          loader: require.resolve('babel-loader'),
+          options: {
+              cacheDirectory: true,
+              plugins: ['react-hot-loader/babel'],
           },
-          {
-            test: /\.less$/,
-            loaders: ["style-loader", "css-loader", "less-loader"]
-          },
-          { 
-            test: /\.json$/, 
-            loader: 'json-loader' 
-          }
-        ]
+        },
+        {
+          test: /\.css$/,
+          loaders: ["style-loader", "css-loader", "less-loader"]
+        },
+        { 
+          test: /\.json$/, 
+          loader: 'json-loader' 
+        },
+        {test: /\.(png|jpg|gif|pdf)$/, loader: 'url-loader'}
+      ]
     },
     output: {
         path: parentDir + '/dist',
@@ -41,7 +43,12 @@ module.exports = {
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+          'process.env': {
+            'GOOGLE_MAPS_API': JSON.stringify(process.env.GOOGLE_MAPS_API)
+          }
+        })
     ],
     node: {
       console: false,
