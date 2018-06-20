@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
 
 export default class TwitterFeed extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isOpen: true
+    }
+  }
+
+  toggleFeed(e) {
+    
+  }
+
   render() {
+    const {isOpen} = this.state
     const {tweetsByQuery} = this.props
 
     return(
       <div className="twitter-feed-container">
+        <div className="feed-header">
+          <h1> Twitter Feed </h1>
+          <div className="toggle-feed">+</div>
+        </div> 
         <div className="twitter-feed">
           {
             tweetsByQuery.statuses.map(status => {

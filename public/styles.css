@@ -1,5 +1,6 @@
 html, body {
   font-family: arial;
+  -webkit-font-smoothing: antialiased;
   margin: 0;
 }
 
@@ -97,21 +98,55 @@ html, body {
   }
 }
 
-.twitter-feed {
+.twitter-feed-container {
   width: 40%;
   height: 40%;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  margin: 10px;
-  z-index: 9;
-  left: 0;
+  position: absolute;
+  margin-bottom: 5px;
   bottom: 0;
-  position: fixed;
   overflow-y: scroll;
   overflow-x: hidden;
   border-radius: 20px;
   font-size: 0.8em;
   max-width: 330px;
+  min-width: 260px;
+  padding: 20px;
+  margin: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+
+
+  .feed-header {
+    margin-bottom: 15px;
+
+    h1 {
+      display: inline;
+    }
+
+    .toggle-feed {
+      float: left;
+      background: #599cdd;
+      border-radius: 50%;
+      color: white;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 2em;
+      font-weight: bolder;
+      cursor: pointer;
+      margin-right: 10px;
+      
+      &:hover {
+        opacity: 0.7;
+        transition: opacity 0.5s;
+      }
+    }
+  }
+}
+
+.twitter-feed {
+  z-index: 9;
+
   &::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 7px;
@@ -124,7 +159,7 @@ html, body {
 
   &:before {
     content: '';
-    width: 100%;
+    width: inherit;
     height: 35%;
     position: fixed;
     left: 0;
