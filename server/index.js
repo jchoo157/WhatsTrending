@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack/webpack.dev.config');
+require('dotenv').config()
 
 const twitAuthentication = require('../client/actions/twitter').twitAuthentication;
 
