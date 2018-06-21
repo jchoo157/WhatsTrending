@@ -10,7 +10,8 @@ export default class TwitterFeed extends Component {
   }
 
   toggleFeed(e) {
-    
+    const {isOpen} = this.state;
+    this.setState({isOpen: !isOpen})
   }
 
   render() {
@@ -21,9 +22,11 @@ export default class TwitterFeed extends Component {
       <div className="twitter-feed-container">
         <div className="feed-header">
           <h1> Twitter Feed </h1>
-          <div className="toggle-feed">+</div>
+          <div className="toggle-feed" onClick={() => this.toggleFeed()}>
+            {isOpen ? '−' : '+'}
+          </div>
         </div> 
-        <div className="twitter-feed">
+        <div className={"twitter-feed " + (isOpen ? 'active' : '')}>
           {
             tweetsByQuery.statuses.map(status => {
               return (
