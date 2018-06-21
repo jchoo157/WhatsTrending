@@ -7,15 +7,6 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack/webpack.dev.config');
 
 const twitAuthentication = require('../client/actions/twitter').twitAuthentication;
-// import express from 'express';
-// import path from 'path';
-
-// import webpack from 'webpack';
-// import webpackMiddleware from 'webpack-dev-middleware';
-// import webpackHotMiddleware from 'webpack-hot-middleware';
-// import webpackConfig from '../webpack/webpack.dev.config';
-
-// import { twitAuthentication } from '../client/actions/twitter';
 
 let app = express();
 

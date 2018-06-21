@@ -4,6 +4,8 @@ const RECEIVE_TWEETS = 'RECEIVE_TWEETS';
 
 const fetch = require('cross-fetch');
 
+require('dotenv').config()
+
 const requestTweets = () => {
   return {
     type: REQUEST_TWEETS
