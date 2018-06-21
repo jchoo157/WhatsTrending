@@ -46,6 +46,10 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
           'process.env': {
+            CONSUMER_KEY:      JSON.stringify(process.env.CONSUMER_KEY),
+            CONSUMER_SECRET:   JSON.stringify(process.env.CONSUMER_SECRET),
+            ACCESS_TOKEN:      JSON.stringify(process.env.ACCESS_TOKEN),
+            ACCESS_TOKEN:      JSON.stringify(process.env.ACCESS_TOKEN_SECRET),
             'GOOGLE_MAPS_API': JSON.stringify(process.env.GOOGLE_MAPS_API)
           }
         })
