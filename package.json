@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack.dev.config.js",
-    "server": "nodemon --watch server --exec babel-node -- server/index.js"
+    "server": "nodemon --watch server --exec babel-node -- server/index.js",
+    "postinstall": "webpack -p",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
