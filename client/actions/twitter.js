@@ -1,49 +1,38 @@
-const exports = module.exports = {};
-
 const CLICK_TITLE = 'CLICK_TITLE';
-exports.CLICK_TITLE = CLICK_TITLE;
-
 const REQUEST_TWEETS = 'REQUEST_TWEETS';
-exports.REQUEST_TWEETS = REQUEST_TWEETS;
-
 const RECEIVE_TWEETS = 'RECEIVE_TWEETS'; 
-exports.RECEIVE_TWEETS = RECEIVE_TWEETS;
 
 const fetch = require('cross-fetch');
 
-const requestTweets = function() {
+const requestTweets = () => {
   return {
     type: REQUEST_TWEETS
   }
 }
-exports.requestTweets = requestTweets
 
-const receiveTweetsByQuery = function(json) {
+const receiveTweetsByQuery = (json) => {
   return {
     type: RECEIVE_TWEETS,
     statuses: json.statuses
   }
 }
-exports.receiveTweetsByQuery = receiveTweetsByQuery
 
-const clickTitle = function(payload) {
-  console.log('clickTitle()')
-  return {
-    type: CLICK_TITLE,
-    payload: payload
-  }
-}
-exports.clickTitle = clickTitle
+// const clickTitle(payload) {
+//   console.log('clickTitle()')
+//   return {
+//     type: CLICK_TITLE,
+//     payload: payload
+//   }
+// }
 
-const clickedTitle = function() {
-  console.log('clickedTitle()')
-  return dispatch => {
-    dispatch(clickTitle());
-  }
-}
-exports.clickedTitle = clickedTitle
+// const clickedTitle() {
+//   console.log('clickedTitle()')
+//   return dispatch => {
+//     dispatch(clickTitle());
+//   }
+// }
 
-exports.fetchTweetsByQuery = function() {
+const fetchTweetsByQuery = () => {
   return (dispatch, getState) => {
     const {googlemaps: {coordinates}} = getState();
 
@@ -66,7 +55,7 @@ exports.fetchTweetsByQuery = function() {
   }
 }
 
-exports.twitAuthentication = function(queries, count) {
+const twitAuthentication = (queries, count) => {
   var Twit = require('twit')
   var T = new Twit({
     consumer_key:         process.env.CONSUMER_KEY,
@@ -85,5 +74,14 @@ exports.twitAuthentication = function(queries, count) {
       }
     })
   })
+}
+
+module.exports = {
+  REQUEST_TWEETS: REQUEST_TWEETS,
+  RECEIVE_TWEETS: RECEIVE_TWEETS,
+  requestTweets: requestTweets,
+  receiveTweetsByQuery: receiveTweetsByQuery,
+  fetchTweetsByQuery: fetchTweetsByQuery,
+  twitAuthentication: twitAuthentication
 }
 
