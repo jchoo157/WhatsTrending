@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack.dev.config.js",
     "server": "nodemon --watch server --exec babel-node -- server/index.js",
-    "postinstall": "webpack -p",
+    "postinstall": "webpack --config webpack/webpack.dev.config.js",
     "start": "node server/index.js"
   },
   "repository": {
