@@ -37,4 +37,4 @@ app.get('/data', (req, res) => {
   twitAuthentication(`${req.query.lat},${req.query.lng},1mi`, 100).then(result => {res.json(result)})
 });
 
-app.listen(8080, () => console.log('running on 8080'))
+app.listen(process.env.PORT || 8080, () => console.log('Running server'))
