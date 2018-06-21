@@ -1,40 +1,49 @@
-export const CLICK_TITLE = 'CLICK_TITLE';
-export const REQUEST_TWEETS = 'REQUEST_TWEETS';
-export const RECEIVE_TWEETS = 'RECEIVE_TWEETS'; 
+const exports = module.exports = {};
 
-import { getCoordinates } from './googlemaps';
+const CLICK_TITLE = 'CLICK_TITLE';
+exports.CLICK_TITLE = CLICK_TITLE;
 
-import fetch from 'cross-fetch'
+const REQUEST_TWEETS = 'REQUEST_TWEETS';
+exports.REQUEST_TWEETS = REQUEST_TWEETS;
 
-export function requestTweets() {
+const RECEIVE_TWEETS = 'RECEIVE_TWEETS'; 
+exports.RECEIVE_TWEETS = RECEIVE_TWEETS;
+
+const fetch = require('cross-fetch');
+
+const requestTweets = function() {
   return {
     type: REQUEST_TWEETS
   }
 }
+exports.requestTweets = requestTweets
 
-export function receiveTweetsByQuery(json) {
+const receiveTweetsByQuery = function(json) {
   return {
     type: RECEIVE_TWEETS,
     statuses: json.statuses
   }
 }
+exports.receiveTweetsByQuery = receiveTweetsByQuery
 
-export function clickTitle(payload) {
+const clickTitle = function(payload) {
   console.log('clickTitle()')
   return {
     type: CLICK_TITLE,
     payload: payload
   }
 }
+exports.clickTitle = clickTitle
 
-export function clickedTitle() {
+const clickedTitle = function() {
   console.log('clickedTitle()')
   return dispatch => {
     dispatch(clickTitle());
   }
 }
+exports.clickedTitle = clickedTitle
 
-export function fetchTweetsByQuery() {
+exports.fetchTweetsByQuery = function() {
   return (dispatch, getState) => {
     const {googlemaps: {coordinates}} = getState();
 
@@ -57,7 +66,7 @@ export function fetchTweetsByQuery() {
   }
 }
 
-export function twitAuthentication(queries, count) {
+exports.twitAuthentication = function(queries, count) {
   var Twit = require('twit')
   var T = new Twit({
     consumer_key:         process.env.CONSUMER_KEY,

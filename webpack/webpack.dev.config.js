@@ -9,6 +9,11 @@ module.exports = {
         'webpack-hot-middleware/client',
         path.join(parentDir, '/client/index.js')
     ],
+    output: {
+        path: parentDir + '/dist',
+        publicPath: '/',
+        filename: 'bundle.js'
+    },
     module: {
       loaders: [
         {
@@ -30,11 +35,6 @@ module.exports = {
         },
         {test: /\.(png|jpg|gif|pdf)$/, loader: 'url-loader'}
       ]
-    },
-    output: {
-        path: parentDir + '/dist',
-        publicPath: '/',
-        filename: 'bundle.js'
     },
     devServer: {
         contentBase: parentDir,
